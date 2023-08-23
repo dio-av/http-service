@@ -11,16 +11,16 @@ import (
 )
 
 type client struct {
-	Name  string
-	Email string
-	Senha string
+	Name    string
+	Email   string
+	Address string
 }
 
-func newClient(name, email, senha string) client {
+func newClient(name, email, address string) client {
 	return client{
 		name,
 		email,
-		senha,
+		address,
 	}
 }
 
@@ -33,11 +33,11 @@ func main() {
 		<title>Transactions</title>
 	</head>
 	<body>
-		Hello {{ .Name }}. Your email is {{ .Email }} and your password is: {{ .Senha }}		
+		Hello {{ .Name }}. Your email is {{ .Email }} and your password is: {{ .Address }}		
 	</body>
 </html>`
 
-	c := newClient("Zezinho", "zezinho@mail.com", "zezinho123")
+	c := newClient("Jon Doe", "jondoe@mail.com", "Jon Doe's street")
 
 	t, err := template.ParseFiles("./transfer.gohtml")
 	if err != nil {
@@ -53,7 +53,7 @@ func main() {
 					<title>Gopay</title>
 				</head>
 				<body>
-					<p>Hello! Welcome tto Gopay.</p>
+					<p>Hello! Welcome to Gopay.</p>
 				</body>
 			</html>`,
 		)
