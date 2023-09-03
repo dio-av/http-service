@@ -1,4 +1,4 @@
-module github.com/dio-av/rest-api
+module github.com/dio-av/http-service
 
 go 1.21.0
 
