@@ -1,2 +1,2 @@
 # http-service
-HTTP service with server side generated HTML using templates.
+HTTP server for financial transactions with server side generated HTML using templates.
