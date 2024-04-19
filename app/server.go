@@ -1,14 +1,22 @@
 package app
 
 import (
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"gorm.io/gorm"
 )
 
 type server struct {
 	db     *gorm.DB
-	router *mux.Router
-	//email  EmailSender
+	Router *chi.Mux
+}
+
+func NewServer(database *gorm.DB) *server {
+	s := &server{
+		db: database,
+	}
+	s.routes()
+
+	return s
 }
 
 type Client struct {

@@ -7,9 +7,9 @@ import (
 )
 
 func (s *server) routes() {
-	s.router.HandleFunc("/api/", s.handleAPI())
-	s.router.HandleFunc("/transfer", s.handleTransfer())
-	s.router.HandleFunc("/", s.handleIndex())
+	s.Router.HandleFunc("/api/v1/", s.handleAPI())
+	s.Router.HandleFunc("/transfer", s.handleTransfer())
+	s.Router.HandleFunc("/", s.handleIndex())
 }
 
 func (s *server) handleIndex() http.HandlerFunc {

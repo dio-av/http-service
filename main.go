@@ -5,19 +5,19 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/mux"
+	"github.com/dio-av/http-service/app"
 )
 
 func runServer() {
-	router := mux.NewRouter()
-	srv := &http.Server{
-		Handler:      router,
+	srv := app.NewServer(nil)
+
+	server := &http.Server{
+		Handler:      srv.Router,
 		Addr:         ":8080",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
-	log.Fatal(srv.ListenAndServe())
+	log.Fatal(server.ListenAndServe())
 }
 
 func main() {
