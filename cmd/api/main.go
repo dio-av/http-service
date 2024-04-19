@@ -11,17 +11,16 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v4"
-	"gorm.io/gorm"
 )
 
 const ContextUserIDKey ContextKey = "userid"
 
 type APIServer struct {
 	listenAddr string
-	store      *gorm.DB
+	store      Storage
 }
 
-func NewAPIServer(listenAddr string, store *gorm.DB) *APIServer {
+func NewAPIServer(listenAddr string, store Storage) *APIServer {
 	return &APIServer{
 		listenAddr: listenAddr,
 		store:      store,
@@ -61,7 +60,7 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 		return fmt.Errorf("not authenticated")
 	}
 
-	token, err := createJWT(acc)
+	token, err := createJWT(&acc)
 	if err != nil {
 		return err
 	}
@@ -95,28 +94,28 @@ func (s *APIServer) handleGetAccount(w http.ResponseWriter, r *http.Request) err
 }
 
 func (s *APIServer) handleGetAccountByID(w http.ResponseWriter, r *http.Request) error {
-	if r.Method == "GET" {
-		id, err := getID(r)
-		if err != nil {
-			return err
-		}
+	// if r.Method == "GET" {
+	// 	id, err := getID(r)
+	// 	if err != nil {
+	// 		return err
+	// 	}
 
-		jwtUserID := r.Context().Value(ContextUserIDKey).(int)
-		if id != jwtUserID {
-			return fmt.Errorf("permission denied")
-		}
+	// 	jwtUserID := r.Context().Value(ContextUserIDKey).(int)
+	// 	if id != jwtUserID {
+	// 		return fmt.Errorf("permission denied")
+	// 	}
 
-		account, err := s.store.GetAccountByID(id)
-		if err != nil {
-			return err
-		}
+	// 	account, err := s.store.GetAccountByID(id)
+	// 	if err != nil {
+	// 		return err
+	// 	}
 
-		return WriteJSON(w, http.StatusOK, account)
-	}
+	// 	return WriteJSON(w, http.StatusOK, account)
+	// }
 
-	if r.Method == "DELETE" {
-		return s.handleDeleteAccount(w, r)
-	}
+	// if r.Method == "DELETE" {
+	// 	return s.handleDeleteAccount(w, r)
+	// }
 
 	return fmt.Errorf("method not allowed %s", r.Method)
 }
@@ -139,16 +138,16 @@ func (s *APIServer) handleCreateAccount(w http.ResponseWriter, r *http.Request) 
 }
 
 func (s *APIServer) handleDeleteAccount(w http.ResponseWriter, r *http.Request) error {
-	id, err := getID(r)
-	if err != nil {
-		return err
-	}
+	// id, err := getID(r)
+	// if err != nil {
+	// 	return err
+	// }
 
-	if err := s.store.DeleteAccount(id); err != nil {
-		return err
-	}
+	// if err := s.store.DeleteAccount(id); err != nil {
+	// 	return err
+	// }
 
-	return WriteJSON(w, http.StatusOK, map[string]int{"deleted": id})
+	// return WriteJSON(w, http.StatusOK, map[string]int{"deleted": id})
 }
 
 func (s *APIServer) handleTransfer(w http.ResponseWriter, r *http.Request) error {
